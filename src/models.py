@@ -5,6 +5,7 @@ from sqlalchemy.orm import relationship, declarative_base
 from sqlalchemy import create_engine
 from eralchemy2 import render_er
 
+
 Base = declarative_base()
 
 class User(Base):
