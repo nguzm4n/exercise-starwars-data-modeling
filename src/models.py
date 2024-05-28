@@ -13,6 +13,7 @@ class User(Base):
     username = Column(String(120), unique=True, nullable=False)
     firstname = Column(String(120), nullable=False)
     lastname = Column(String(120))
+    password = Column(String(120), nullable=False)
     email = Column(String(120), unique=True, nullable=False)
     date = Column(Date, index=True)
     favorites = relationship("Favorite", back_populates="user")
