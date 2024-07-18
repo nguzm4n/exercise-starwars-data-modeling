@@ -17,7 +17,7 @@ class User(Base):
     password = Column(String(120), nullable=False)
     email = Column(String(120), unique=True, nullable=False)
     date = Column(Date, index=True)
-    favorites = relationship("Favorite", back_populates="user")
+    favorites = relationship("Favorite", backref="user")
 
 class Character(Base):
     __tablename__ = "character"
@@ -29,7 +29,7 @@ class Character(Base):
     hair_color = Column(String(120))
     mass = Column(Integer)
     height = Column(Integer)
-    favorites = relationship("Favorite", back_populates="character")
+    favorites = relationship("Favorite", backref="character")
 
 class Planet(Base):
     __tablename__ = "planet"
@@ -42,7 +42,7 @@ class Planet(Base):
     orbital_period = Column(Integer)
     rotation_period = Column(Integer)
     diameter = Column(Integer)
-    favorites = relationship("Favorite", back_populates="planet")
+    favorites = relationship("Favorite", backref="planet")
 
 class Favorite(Base):
     __tablename__ = "favorite"
@@ -50,12 +50,14 @@ class Favorite(Base):
     user_id = Column(Integer, ForeignKey('user.id'))
     planet_id = Column(Integer, ForeignKey('planet.id'))
     character_id = Column(Integer, ForeignKey('character.id'))
-    user = relationship("User", back_populates="favorites")
-    planet = relationship("Planet", back_populates="favorites")
-    character = relationship("Character", back_populates="favorites")
 
     def to_dict(self):
-        return {}
+        return {
+            "id": self.id,
+            "user_id": self.user_id,
+            "planet_id": self.planet_id,
+            "character_id": self.character_id
+        }
 
 ## Draw from SQLAlchemy base
 render_er(Base, 'diagram.png')
